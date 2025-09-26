@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Article – {{ article.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #1f2937;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #dc2626;
+        }
+        p {
+            margin: 1rem 0 2rem;
+            color: #374151;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-delete {
+            background-color: #dc2626;
+            color: #fff;
+        }
+        .btn-cancel {
+            background-color: #6b7280;
+            color: #fff;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Article Management</h2>
+</header>
+
+<main>
+    <h1>Delete Article</h1>
+    <p>Are you sure you want to delete <strong>{{ article.title }}</strong>?<br>
+       This action cannot be undone.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="buttons">
+            <button type="submit" class="btn btn-delete">Yes, Delete</button>
+            <a href="{% url 'article_detail' article.pk %}" class="btn btn-cancel">Cancel</a>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

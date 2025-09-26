@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impala Healthtech Research - Evidence-Based Health Technology Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    {% include "partials/header.html" %}
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Evidence-Based Health Technology Solutions</h1>
+            <p>We generate evidence to guide design, development and deployment of transformative healthcare technologies</p>
+            <a href="#get-involved" class="btn">Get Involved</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Who We Are</h2>
+            <div class="about-content">
+                <div>
+                    <h3>Impala Healthtech Research Limited</h3>
+                    <p>Founded with a sole purpose of building a strong evidence base for internally and externally designed health technology solutions using strong research methodologies, as a means of achieving sustainably impactful health technology interventions.</p>
+                    
+                    <div class="mission-statement">
+                        <p>We are a team of 8 multidisciplinary, and passionate young professionals supported by a team of highly experienced non executive directors.</p>
+                    </div>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1581595219318-1c6b01b38055?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Impala Healthtech Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" style="background-color: #f5f9f5;">
+        <div class="container">
+            <h2 class="section-title">What We Do</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 40px; font-size: 1.1rem;">
+                We conduct both explorative and evaluative research, in addition to technology and business development
+            </p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Research and Development</h3>
+                        <p>We conduct explorative research to establish the most pressing health challenges, and customize technology based solutions for them. We do routine, and on demand research in health systems, health service access and delivery, health economics and pharmaceutics.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Impact Evaluation</h3>
+                        <p>We use strong research methodologies to conduct independent impact evaluation of internally and externally developed health technology solutions, to prepare them for scaled implementation.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Business Development</h3>
+                        <p>We conduct market research and analysis, and use the scientific evidence generated to develop and test business and revenue models for health technology solutions with high scaled impact potential.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Our Success in 1 Year</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-text">Health technology solutions built to scale</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-text">Companies supported in their product development journey</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-text">Research projects with 3 publications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Involved Section -->
+    <section id="get-involved">
+        <div class="container">
+            <h2 class="section-title">Get Involved</h2>
+            <div class="about-content">
+                <div>
+                    <h3>Looking for a collaboration?</h3>
+                    <p>Book an appointment with us. We shall give you time to listen to your health technology offering and suggest the best route you out to take to achieve your product sustainability. We shall ensure intellectual property rights protection through a non-disclosure agreement.</p>
+                    <a href="#contact" class="btn" style="margin-top: 20px;">Book an Appointment</a>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1581595219318-1c6b01b38055?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Collaboration">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="updates" style="background-color: #f5f9f5;">
+        <div class="container">
+            <h2 class="section-title">Latest Updates</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Antimicrobial Resistance">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">June 12, 2025</div>
+                        <h3>💊 When Resistance Means No Options Left</h3>
+                        <p>In our medical professionals' groups, images like this circulate every day: heartbreaking, sterile sheets of paper carrying the weight of real human lives lost...</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read More</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Health Facilities">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">May 26, 2025</div>
+                        <h3>Call for Expression of Interest: Be Among the Next 100 Health Facilities to Experience DIGAMS</h3>
+                        <p>Impala Healthtech Research Limited is excited to announce a call for expression of interest for small health facilities to join the early access rollout of DIGAMS...</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read More</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1581595219318-1c6b01b38055?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Malaria Management">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">April 25, 2025</div>
+                        <h3>Reimagining Malaria Management in the Age of Antimicrobial Resistance: The Promise of DIGAMS</h3>
+                        <p>Every April 25, we pause to reflect on the global struggle against malaria—a disease that continues to devastate lives despite being preventable and treatable...</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIGAMS Section -->
+    <section id="digams">
+        <div class="container">
+            <h2 class="section-title">DIGAMS</h2>
+            <div class="about-content">
+                <div>
+                    <p>DIGAMS is a digital, antimicrobial stewardship platform integrating a microbiology lab marketplace, and real-time A.I driven empirical antimicrobial treatment decision support to clinicians.</p>
+                    <p>Patients needing pathogen confirmatory, and susceptibility tests can get their samples taken, and recorded at local laboratories or clinics, and tested at the few microbiology labs, all through DIGAMS. The results are also used to update an AI model that guides empirical antimicrobial treatment.</p>
+                    <p>Underequipped facilities can conduct microbiology confirmatory or susceptibility tests from the few microbiology labs, to optimally use antimicrobial drugs.</p>
+                    <a href="#" class="btn" style="margin-top: 20px;">Learn More About DIGAMS</a>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1581595219318-1c6b01b38055?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="DIGAMS Platform">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: #f5f9f5;">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p><i class="fas fa-envelope"></i> operations@impalaresearch.com</p>
+                    <p><i class="fas fa-phone"></i> +256783731032</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Plot 712, Mirembe Close, Ntinda, Nakawa, Kampala</p>
+                    <p><i class="fas fa-mail-bulk"></i> P. O. Box, 801349, Uganda</p>
+                    
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    
+    <script src="{% static 'js/landing.js' %}"></script>
+
+    {% include "partials/footer.html" %}
+</body>
+</html>

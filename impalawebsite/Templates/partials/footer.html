@@ -1,0 +1,66 @@
+<footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>Impala Healthtech Research</h3>
+                    <p>Building a strong evidence base for health technology solutions using strong research methodologies to achieve sustainably impactful health technology interventions.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">Who We Are</a></li>
+                        <li><a href="#services">What We Do</a></li>
+                        <li><a href="#get-involved">Get Involved</a></li>
+                        <li><a href="#updates">Updates</a></li>
+                        <li><a href="#digams">DIGAMS</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        <li><a href="#">💊 When Resistance Means No Options Left</a></li>
+                        <li><a href="#">Call for Expression of Interest: Be Among the Next 100 Health Facilities to Experience DIGAMS</a></li>
+                        <li><a href="#">Reimagining Malaria Management in the Age of Antimicrobial Resistance: The Promise of DIGAMS</a></li>
+                    </ul>
+                </div>
+                </div>
+                <!-- Contact Form Section -->
+                <div class="footer-section contact-form-section">
+                    <h3>Send Us a Message</h3>
+                    <form method="post" action="{% url 'contact' %}" class="footer-contact-form">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" name="phone" placeholder="Phone Number">
+                        </div>
+                        <div class="form-row">
+                            <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        </div>
+
+                        <!-- Consent statement under the form -->
+                        <p class="consent-text">
+                            By providing your email address you agree to receive periodic email updates from
+                            <strong>Impala Research</strong>. Use the unsubscribe link in those emails to opt out at any time.
+                        </p>
+
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Impala Healthtech Research Limited. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
