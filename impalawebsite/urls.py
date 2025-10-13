@@ -1,5 +1,18 @@
 from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
+from .views import ArticleViewSet, ContactMessageViewSet
+
+
+
+
+router = DefaultRouter()
+router.register(r'articles', ArticleViewSet)
+router.register(r'contacts', ContactMessageViewSet)
+
+
+
+
 
 urlpatterns = [
 
@@ -15,4 +28,11 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('test/', views.test_editor, name='test'),
     path("unsubscribe/<str:token>/", views.unsubscribe, name="unsubscribe"),
+    path('api/', include(router.urls)),
+    
+    path("api/signup/", views.signup_api, name="signup_api"),
+    path("api/login/", views.login_api, name="login_api"),
+    path("api/logout/", views.logout_api, name="logout_api"),
+    path("api/csrf/", views.csrf, name="api_csrf"), 
+    
 ]

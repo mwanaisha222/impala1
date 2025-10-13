@@ -19,10 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('impalawebsite.urls')),
     path('summernote/', include('django_summernote.urls')),  # Summernote upload URLs
+    path('api/', include('impalawebsite.urls')),  # your existing routes
+    path('api/auth/', include('dj_rest_auth.urls')),  # login/logout
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')), 
 ]
 
 # Serve media files in development
