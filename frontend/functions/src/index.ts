@@ -34,6 +34,17 @@ const db: Firestore = getFirestore();
 
 // Generate CSV of contacts
 export const generateContactsCSV = functions.https.onRequest(async (req, res) => {
+  // Set CORS headers
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight request
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
   try {
     const contactsSnapshot = await db.collection("contacts").get();
     const contacts = contactsSnapshot.docs.map((doc) => doc.data());
@@ -44,7 +55,7 @@ export const generateContactsCSV = functions.https.onRequest(async (req, res) =>
         { id: "email", title: "Email" },
         { id: "subject", title: "Subject" },
         { id: "message", title: "Message" },
-        { id: "created_at", title: "Submitted At" },
+        { id: "timestamp", title: "Submitted At" },
       ],
     });
 
@@ -63,6 +74,17 @@ export const generateContactsCSV = functions.https.onRequest(async (req, res) =>
 // Generate CSV of subscriptions
 export const generateSubscriptionsCSV = functions.https.onRequest(
   async (req, res) => {
+    // Set CORS headers
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET, POST");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+
+    // Handle preflight request
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
     try {
       const subscriptionsSnapshot = await db.collection("subscriptions").get();
       const subscriptions = subscriptionsSnapshot.docs.map((doc) => doc.data());
@@ -70,7 +92,7 @@ export const generateSubscriptionsCSV = functions.https.onRequest(
       const csvStringifier = csvWriter.createObjectCsvStringifier({
         header: [
           { id: "email", title: "Email" },
-          { id: "subscribed_at", title: "Subscribed At" },
+          { id: "subscribedAt", title: "Subscribed At" },
         ],
       });
 
@@ -90,12 +112,7 @@ export const generateSubscriptionsCSV = functions.https.onRequest(
   }
 );
 
-// Send notification when new contact is created
-export const sendContactNotification = functions.firestore
-  .document("contacts/{contactId}")
-  .onCreate(async (snap: functions.firestore.QueryDocumentSnapshot) => {
-    const data = snap.data();
-    console.log("New contact submission:", data);
-    // Implement email notification logic here (e.g., using SendGrid)
-    // Example: Send email to operations@impalaresearch.com with contact details
-  });
+// Note: The sendContactNotification function below uses v1 API
+// It will show a warning but still works. To use v2 API, replace with:
+// import {onDocumentCreated} from "firebase-functions/v2/firestore";
+// export const sendContactNotification = onDocumentCreated(...)
