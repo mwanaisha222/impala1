@@ -6,49 +6,12 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
-/* -------------------------------------------------------------------------- */
-/* 🌍 Base URL for your Django backend                                        */
-/* -------------------------------------------------------------------------- */
-const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-
-/* -------------------------------------------------------------------------- */
-/* 🧩 Get CSRF token from cookie                                              */
-/* -------------------------------------------------------------------------- */
-export function getCSRFToken(): string | null {
-  const match = document.cookie.match(/csrftoken=([\w-]+)/);
-  return match ? match[1] : null;
-}
-
-/* -------------------------------------------------------------------------- */
-/* 🧩 Fetch CSRF cookie from Django                                           */
-/* -------------------------------------------------------------------------- */
-async function fetchCSRFToken() {
-  try {
-    const res = await fetch(`${BASE_URL}/api/csrf/`, {
-      method: "GET",
-      credentials: "include", // ✅ crucial for Django to set cookies
-      headers: { Accept: "application/json" },
-    });
-
-    if (!res.ok) throw new Error(`Failed to fetch CSRF token (${res.status})`);
-
-    const data = await res.json();
-    console.log("✅ CSRF token fetched:", data?.csrfToken);
-    return data?.csrfToken || getCSRFToken();
-  } catch (err) {
-    console.error("❌ Failed to fetch CSRF token:", err);
-    return null;
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* 🧩 Signup Component                                                        */
-/* -------------------------------------------------------------------------- */
 const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-
   const [formData, setFormData] = useState({
     email: "",
     first_name: "",
@@ -73,63 +36,33 @@ const Signup = () => {
       return;
     }
 
-    // 1️⃣ Fetch CSRF cookie and token first
-    const csrftoken = await fetchCSRFToken();
-
     try {
-      const body = new URLSearchParams();
-      Object.entries(formData).forEach(([k, v]) => body.append(k, String(v)));
-
-      // 2️⃣ Send signup request to Django API endpoint
-      const res = await fetch(`${BASE_URL}/api/signup/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
-        },
-        credentials: "include", // ✅ allows cookie exchange
-        body: body.toString(),
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password1
+      );
+      await updateProfile(userCredential.user, {
+        displayName: `${formData.first_name} ${formData.surname}`,
       });
-
-      if (res.ok) {
-        try {
-          const data = await res.json();
-          if (data?.key) localStorage.setItem("authToken", data.key);
-        } catch {
-          /* Non-JSON responses are fine */
-        }
-
-        toast({
-          title: "Account Created",
-          description: "Welcome to Impala!",
-        });
-        navigate("/");
-      } else {
-        const text = await res.text();
-        console.error("Signup failed:", res.status, text);
-        toast({
-          title: "Signup failed",
-          description: text || "Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (err) {
-      console.error(err);
+      toast({
+        title: "Account Created",
+        description: "Welcome to Impala!",
+      });
+      navigate("/");
+    } catch (err: any) {
+      console.error("Signup failed:", err);
       toast({
         title: "Error",
-        description: "Signup failed. Please try again.",
+        description: err.message || "Signup failed. Please try again.",
         variant: "destructive",
       });
     }
   };
 
-  /* -------------------------------------------------------------------------- */
-  /* 💅 Component UI                                                           */
-  /* -------------------------------------------------------------------------- */
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
       <main className="flex-1 flex items-center justify-center py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-md mx-auto">
@@ -139,7 +72,6 @@ const Signup = () => {
                 Join Impala today and get started
               </p>
             </div>
-
             <div className="bg-card border rounded-xl p-8 shadow-sm animate-slide-up">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
@@ -153,7 +85,6 @@ const Signup = () => {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="surname">Surname</Label>
                   <Input
@@ -165,7 +96,6 @@ const Signup = () => {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -178,7 +108,6 @@ const Signup = () => {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="password1">Password</Label>
                   <Input
@@ -191,7 +120,6 @@ const Signup = () => {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="password2">Confirm Password</Label>
                   <Input
@@ -204,7 +132,6 @@ const Signup = () => {
                     required
                   />
                 </div>
-
                 <Button
                   type="submit"
                   className="w-full bg-accent hover:bg-accent/90"
@@ -212,7 +139,6 @@ const Signup = () => {
                   Create Account
                 </Button>
               </form>
-
               <div className="mt-6 text-center text-sm">
                 <span className="text-muted-foreground">
                   Already have an account?{" "}
@@ -228,7 +154,6 @@ const Signup = () => {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

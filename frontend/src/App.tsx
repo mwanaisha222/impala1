@@ -13,6 +13,9 @@ import Signup from "./pages/Signup";
 import WhoWeAre from "./pages/WhoWeAre";
 import WhatWeDo from "./pages/WhatWeDo";
 import NotFound from "./pages/NotFound";
+import Newsletter from "./pages/Newsletter";
+import AdminDashboard from "./pages/AdminDashboard";
+import SecretAdminLogin from "./pages/SecretAdminLogin";
 
 const queryClient = new QueryClient();
 
@@ -29,11 +32,18 @@ const App = () => (
           <Route path="/articles/new" element={<ArticleForm />} />
           <Route path="/articles/:id" element={<ArticleDetail />} />
           <Route path="/articles/:id/edit" element={<ArticleForm />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/who-we-are" element={<WhoWeAre />} />
           <Route path="/what-we-do" element={<WhatWeDo />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/newsletter" element={<Newsletter />} />
+          
+          {/* Secret Admin Routes - Hidden from public */}
+          <Route path="/impala-admin-secure-login" element={<SecretAdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          
+          {/* Legacy routes - kept for backward compatibility */}
+          <Route path="/login" element={<SecretAdminLogin />} />
+          <Route path="/signup" element={<SecretAdminLogin />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

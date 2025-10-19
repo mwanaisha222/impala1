@@ -1,8 +1,43 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { db } from "@/lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [subscribing, setSubscribing] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubscribing(true);
+    try {
+      await addDoc(collection(db, "subscriptions"), {
+        email,
+        subscribed_at: new Date().toISOString(),
+      });
+      toast({
+        title: "Subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setEmail("");
+    } catch (err: any) {
+      console.error("Subscription failed:", err);
+      toast({
+        title: "Error",
+        description: "Failed to subscribe. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 lg:px-8 py-12">
@@ -68,10 +103,35 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Newsletter Subscription */}
+          <div>
+            <h3 className="font-semibold mb-4">Newsletter</h3>
+            <p className="text-sm text-primary-foreground/80 mb-3">
+              Subscribe to get the latest updates and insights.
+            </p>
+            <form onSubmit={handleSubscribe} className="space-y-2">
+              <Input
+                type="email"
+                placeholder="your.email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+              />
+              <Button
+                type="submit"
+                disabled={subscribing}
+                className="w-full bg-accent hover:bg-accent/90"
+              >
+                {subscribing ? "Subscribing..." : "Subscribe"}
+              </Button>
+            </form>
+          </div>
+
           {/* Social Links */}
           <div>
             <h3 className="font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-6">
               <a
                 href="#"
                 className="h-10 w-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"

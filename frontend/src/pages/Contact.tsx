@@ -7,7 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getCSRFToken } from "@/lib/csrf";
+import { db } from "@/lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -20,42 +21,23 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const csrftoken = getCSRFToken();
-
     try {
-      const body = new URLSearchParams();
-      Object.entries(formData).forEach(([k, v]) => body.append(k, String(v)));
-      // add required consent field for Django ContactForm
-      body.append("consent_email_updates", "on");
-
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}/contact/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
-          },
-          body: body.toString(),
-          credentials: "include",
-        }
-      );
-
-      if (res.ok) {
-        toast({
-          title: "Message Sent!",
-          description: "We'll get back to you as soon as possible.",
-        });
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        const text = await res.text();
-        console.error("Contact POST failed:", res.status, text);
-        toast({ title: "Error", description: "Failed to send message." });
-      }
-    } catch (err) {
-      console.error(err);
-      toast({ title: "Error", description: "Failed to send message." });
+      await addDoc(collection(db, "contacts"), {
+        ...formData,
+        created_at: new Date().toISOString(),
+      });
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err: any) {
+      console.error("Contact submission failed:", err);
+      toast({
+        title: "Error",
+        description: "Failed to send message.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -68,7 +50,6 @@ const Contact = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
       <main className="flex-1 py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto">
@@ -81,9 +62,7 @@ const Contact = () => {
                 you.
               </p>
             </div>
-
             <div className="grid lg:grid-cols-2 gap-12">
-              {/* Contact Form */}
               <div className="animate-slide-up">
                 <div className="bg-card border rounded-xl p-8 shadow-sm">
                   <h2 className="text-2xl font-semibold mb-6">
@@ -101,7 +80,6 @@ const Contact = () => {
                         required
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <Input
@@ -114,7 +92,6 @@ const Contact = () => {
                         required
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="subject">Subject</Label>
                       <Input
@@ -126,7 +103,6 @@ const Contact = () => {
                         required
                       />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="message">Message</Label>
                       <Textarea
@@ -139,7 +115,6 @@ const Contact = () => {
                         required
                       />
                     </div>
-
                     <Button
                       type="submit"
                       className="w-full bg-accent hover:bg-accent/90"
@@ -149,8 +124,6 @@ const Contact = () => {
                   </form>
                 </div>
               </div>
-
-              {/* Contact Information */}
               <div
                 className="space-y-8 animate-slide-up"
                 style={{ animationDelay: "0.1s" }}
@@ -171,7 +144,6 @@ const Contact = () => {
                         </p>
                       </div>
                     </div>
-
                     <div className="flex items-start space-x-4">
                       <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
                         <Phone className="h-6 w-6 text-accent" />
@@ -181,7 +153,6 @@ const Contact = () => {
                         <p className="text-muted-foreground">+256783731032</p>
                       </div>
                     </div>
-
                     <div className="flex items-start space-x-4">
                       <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <MapPin className="h-6 w-6 text-primary" />
@@ -199,7 +170,6 @@ const Contact = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="bg-muted rounded-xl p-6">
                   <h3 className="font-semibold mb-2">Business Hours</h3>
                   <div className="space-y-1 text-sm text-muted-foreground">
@@ -213,7 +183,6 @@ const Contact = () => {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

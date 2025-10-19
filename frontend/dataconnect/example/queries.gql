@@ -1,0 +1,62 @@
+mutation CreateJobOpening(
+    $deadline: Timestamp!
+    $description: String!
+    $location: String
+    $postedAt: Timestamp!
+    $requirements: String
+    $responsibilities: String
+    $salaryRange: String
+    $title: String!
+) @auth(level: USER) {
+    jobOpening_insert(
+        data: {
+            deadline: $deadline
+            description: $description
+            location: $location
+            postedAt: $postedAt
+            requirements: $requirements
+            responsibilities: $responsibilities
+            salaryRange: $salaryRange
+            title: $title
+        }
+    )
+}
+
+query GetJobOpenings @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  jobOpenings {
+    id
+    title
+    description
+    postedAt
+    deadline
+    location
+    salaryRange
+  }
+}
+
+mutation Subscribe(
+    $email: String!
+    $firstName: String
+    $lastName: String
+    $subscribedAt: Timestamp!
+) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+    subscriptionType_insert(
+        data: {
+            email: $email
+            firstName: $firstName
+            lastName: $lastName
+            subscribedAt: $subscribedAt
+        }
+    )
+}
+
+query GetArticles @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  articles {
+    id
+    title
+    content
+    author
+    publishedAt
+    imageUrl
+  }
+}

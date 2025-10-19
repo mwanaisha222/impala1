@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 interface Props {
   name: string;
@@ -25,17 +26,26 @@ export default function BoardCard({ name, role, image, bio }: Props) {
         <Button onClick={() => setOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">View Profile</Button>
 
         {open && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-lg max-w-3xl w-full p-6 mx-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-2xl font-bold">{name}</h3>
-                  <p className="text-orange-600">{role}</p>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
+              {/* Close button - Fixed at top right */}
+              <button 
+                className="sticky top-0 right-0 float-right m-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-colors z-10 shadow-md"
+                onClick={() => setOpen(false)}
+                aria-label="Close profile"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              
+              {/* Content */}
+              <div className="p-6 pt-2 clear-both">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">{name}</h3>
+                  <p className="text-orange-600 font-medium">{role}</p>
                 </div>
-                <button className="text-gray-500" onClick={() => setOpen(false)}>Close</button>
-              </div>
-              <div className="mt-4 text-gray-700 whitespace-pre-line">
-                {bio}
+                <div className="text-gray-700 whitespace-pre-line leading-relaxed">
+                  {bio}
+                </div>
               </div>
             </div>
           </div>

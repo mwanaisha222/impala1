@@ -1,12 +1,31 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -61,17 +80,22 @@ const Header = () => {
             )}
           </nav>
 
-          {/* Desktop Auth Buttons */}
-          {/* Temporarily hidden - will be visible later
+          {/* Desktop Auth/Admin Buttons - Only show if logged in */}
           <div className="hidden md:flex items-center space-x-2">
-            <Button variant="ghost" asChild>
-              <Link to="/login">Login</Link>
-            </Button>
-            <Button asChild className="bg-accent hover:bg-accent/90">
-              <Link to="/signup">Sign Up</Link>
-            </Button>
+            {user && (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link to="/admin">
+                    <User className="mr-2 h-4 w-4" />
+                    Admin
+                  </Link>
+                </Button>
+                <Button variant="outline" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            )}
           </div>
-          */}
 
           {/* Mobile Menu Button */}
           <button
@@ -111,20 +135,33 @@ const Header = () => {
                 </Link>
               )
             )}
-            {/* Temporarily hidden - will be visible later
-            <div className="pt-2 space-y-2">
-              <Button variant="ghost" asChild className="w-full">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                  Login
+            {/* Mobile Admin Menu - Only show if logged in */}
+            {user && (
+              <>
+                <Link
+                  to="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive("/admin")
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <User className="inline-block mr-2 h-4 w-4" />
+                  Admin
                 </Link>
-              </Button>
-              <Button asChild className="w-full bg-accent hover:bg-accent/90">
-                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  Sign Up
-                </Link>
-              </Button>
-            </div>
-            */}
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full mt-2"
+                >
+                  Logout
+                </Button>
+              </>
+            )}
           </div>
         )}
       </div>

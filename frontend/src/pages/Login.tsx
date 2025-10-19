@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getCSRFToken } from "@/lib/csrf";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,46 +19,20 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const csrftoken = getCSRFToken();
     try {
-      const body = new URLSearchParams();
-      Object.entries(formData).forEach(([k, v]) => body.append(k, String(v)));
-
-      // Use our custom login API endpoint
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}/api/login/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
-          },
-          credentials: "include",
-          body: body.toString(),
-        }
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-        // dj-rest-auth returns key when TokenAuthentication is enabled
-        if (data?.key) {
-          localStorage.setItem('authToken', data.key);
-        }
-
-        toast({
-          title: "Login Successful!",
-          description: "Welcome back to Impala.",
-        });
-
-        navigate("/");
-      } else {
-        const text = await res.text();
-        console.error("Login failed:", res.status, text);
-        toast({ title: "Error", description: "Login failed" });
-      }
-    } catch (err) {
-      console.error(err);
-      toast({ title: "Error", description: "Login failed" });
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      toast({
+        title: "Login Successful!",
+        description: "Welcome back to Impala.",
+      });
+      navigate("/");
+    } catch (err: any) {
+      console.error("Login failed:", err);
+      toast({
+        title: "Error",
+        description: err.message || "Login failed",
+        variant: "destructive",
+      });
     }
   };
 
@@ -68,7 +43,6 @@ const Login = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
       <main className="flex-1 flex items-center justify-center py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-md mx-auto">
@@ -78,7 +52,6 @@ const Login = () => {
                 Sign in to access your account
               </p>
             </div>
-
             <div className="bg-card border rounded-xl p-8 shadow-sm animate-slide-up">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
@@ -93,7 +66,6 @@ const Login = () => {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <Label htmlFor="password">Password</Label>
@@ -114,7 +86,6 @@ const Login = () => {
                     required
                   />
                 </div>
-
                 <Button
                   type="submit"
                   className="w-full bg-accent hover:bg-accent/90"
@@ -122,7 +93,6 @@ const Login = () => {
                   Sign In
                 </Button>
               </form>
-
               <div className="mt-6 text-center text-sm">
                 <span className="text-muted-foreground">
                   Don't have an account?{" "}
@@ -138,7 +108,6 @@ const Login = () => {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

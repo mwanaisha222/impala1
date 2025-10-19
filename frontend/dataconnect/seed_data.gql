@@ -1,0 +1,78 @@
+mutation SeedDatabase @transaction @auth(level: NO_ACCESS) {
+  companyInfo_insertMany(data: [
+    {
+      name: "Acme Corp",
+      description: "Leading provider of innovative solutions.",
+      mission: "To empower businesses through technology.",
+      address: "123 Main St, Anytown USA",
+      contactEmail: "info@acmecorp.com",
+      phoneNumber: "555-123-4567",
+      history: "Founded in 1950, Acme Corp has a long history of...",
+      vision: "To be the global leader in technology solutions"
+    }
+    {
+      name: "Beta Industries",
+      description: "Developing cutting-edge technologies for tomorrow.",
+      mission: "Advancing the world through technological innovation.",
+      address: "456 Oak Ave, Techville USA",
+      contactEmail: "contact@betaindustries.com",
+      phoneNumber: "555-987-6543",
+      history: "Founded in 2000, Beta Industries quickly became known for...",
+      vision: "To shape the future with groundbreaking technologies"
+    }
+  ])
+  jobOpening_insertMany(data: [
+    {
+      title: "Software Engineer",
+      description: "Seeking a talented software engineer to...",
+      responsibilities: "Develop, test, and deploy high-quality software.",
+      requirements: "Bachelor's degree, 3+ years experience.",
+      location: "Techville, USA",
+      salaryRange: "$80,000 - $120,000",
+      postedAt: "2024-01-01T00:00:00Z",
+      deadline: "2024-02-01T00:00:00Z"
+    },
+    {
+      title: "Data Scientist",
+      description: "Looking for a data scientist to analyze...",
+      responsibilities: "Analyze data, build models, and present insights.",
+      requirements: "Master's degree, 2+ years experience.",
+      location: "Techville, USA",
+      salaryRange: "$90,000 - $130,000",
+      postedAt: "2024-01-05T00:00:00Z",
+      deadline: "2024-02-05T00:00:00Z"
+    }
+  ])
+    article_insertMany(data: [
+    {
+      title: "The Future of AI",
+      content: "Artificial intelligence is rapidly transforming...",
+      author: "Dr. Smith",
+      publishedAt: "2024-01-10T00:00:00Z",
+      imageUrl: "https://example.com/ai.jpg",
+      tags: ["AI", "Technology", "Future"]
+    },
+    {
+      title: "Web Development Trends in 2024",
+      content: "Explore the latest trends in web development...",
+      author: "Jane Doe",
+      publishedAt: "2024-01-15T00:00:00Z",
+      imageUrl: "https://example.com/webdev.jpg",
+      tags: ["Web Development", "Trends", "Technology"]
+    }
+  ])
+  subscriptionType_insertMany(data: [
+    {
+      email: "user1@example.com",
+      firstName: "John",
+      lastName: "Doe",
+      subscribedAt: "2024-01-20T00:00:00Z"
+    },
+    {
+      email: "user2@example.com",
+      firstName: "Alice",
+      lastName: "Smith",
+      subscribedAt: "2024-01-25T00:00:00Z"
+    }
+  ])
+}

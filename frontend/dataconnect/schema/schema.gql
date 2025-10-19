@@ -1,0 +1,48 @@
+type CompanyInfo @table {
+  name: String!
+  description: String!
+  mission: String!
+  history: String
+  vision: String
+  contactEmail: String
+  phoneNumber: String
+  address: String
+}
+
+type Article @table {
+  title: String!
+  content: String!
+  publishedAt: Timestamp!
+  author: String
+  tags: [String]
+  imageUrl: String
+}
+
+type SubscriptionType @table {
+  email: String!
+  subscribedAt: Timestamp!
+  firstName: String
+  lastName: String
+}
+
+type JobOpening @table {
+  title: String!
+  description: String!
+  postedAt: Timestamp!
+  deadline: Timestamp!
+  requirements: String
+  responsibilities: String
+  location: String
+  salaryRange: String
+}
+
+type Application @table {
+  jobOpening: JobOpening!
+  firstName: String!
+  lastName: String!
+  email: String!
+  submittedAt: Timestamp!
+  resumeUrl: String
+  coverLetterUrl: String
+  phoneNumber: String
+}
