@@ -95,48 +95,67 @@ const AdminDashboard = () => {
   const downloadCSV = async (type: "contacts" | "subscriptions") => {
     setDownloading(type);
     try {
-      // Get the Firebase project ID from your config
-      const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
-      const region = "us-central1"; // Update this if your functions are in a different region
-      
-      // Construct the Cloud Function URL
-      const functionName = type === "contacts" ? "generateContactsCSV" : "generateSubscriptionsCSV";
-      const url = `https://${region}-${projectId}.cloudfunctions.net/${functionName}`;
+      // Fetch data directly from Firestore
+      const collectionName = type;
+      const querySnapshot = await getDocs(collection(db, collectionName));
+      const data = querySnapshot.docs.map((doc) => doc.data());
 
-      // Get the user's ID token for authentication
-      const idToken = await auth.currentUser?.getIdToken();
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${idToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (data.length === 0) {
+        toast({
+          title: "No Data",
+          description: `No ${type} found to export.`,
+          variant: "destructive",
+        });
+        setDownloading(null);
+        return;
       }
 
-      // Create a blob from the response
-      const blob = await response.blob();
+      // Generate CSV content based on type
+      let csvContent = "";
       
-      // Create a temporary URL for the blob
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      // Create a temporary anchor element and trigger download
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = `${type}-${new Date().toISOString().split("T")[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      
-      // Clean up
-      window.URL.revokeObjectURL(blobUrl);
-      document.body.removeChild(a);
+      if (type === "contacts") {
+        // CSV header for contacts
+        csvContent = "Name,Email,Subject,Message,Submitted At\n";
+        
+        // CSV rows
+        data.forEach((contact: any) => {
+          const name = (contact.name || "").replace(/"/g, '""');
+          const email = (contact.email || "").replace(/"/g, '""');
+          const subject = (contact.subject || "").replace(/"/g, '""');
+          const message = (contact.message || "").replace(/"/g, '""').replace(/\n/g, " ");
+          const timestamp = contact.timestamp || contact.created_at || "";
+          const date = timestamp ? new Date(timestamp).toLocaleString() : "";
+          
+          csvContent += `"${name}","${email}","${subject}","${message}","${date}"\n`;
+        });
+      } else {
+        // CSV header for subscriptions
+        csvContent = "Email,Subscribed At\n";
+        
+        // CSV rows
+        data.forEach((subscription: any) => {
+          const email = (subscription.email || "").replace(/"/g, '""');
+          const timestamp = subscription.subscribedAt || subscription.subscribed_at || "";
+          const date = timestamp ? new Date(timestamp).toLocaleString() : "";
+          
+          csvContent += `"${email}","${date}"\n`;
+        });
+      }
+
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${type}-${new Date().toISOString().split("T")[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
 
       toast({
         title: "Success!",
-        description: `${type.charAt(0).toUpperCase() + type.slice(1)} CSV downloaded successfully.`,
+        description: `${type.charAt(0).toUpperCase() + type.slice(1)} CSV downloaded successfully. (${data.length} records)`,
       });
     } catch (error: any) {
       console.error(`Error downloading ${type}:`, error);
