@@ -12,6 +12,7 @@ import * as functions from "firebase-functions";
 import {Firestore, getFirestore} from "firebase-admin/firestore";
 import {initializeApp} from "firebase-admin/app";
 import * as csvWriter from "csv-writer";
+import {onDocumentCreated} from "firebase-functions/v2/firestore";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -112,7 +113,69 @@ export const generateSubscriptionsCSV = functions.https.onRequest(
   }
 );
 
-// Note: The sendContactNotification function below uses v1 API
-// It will show a warning but still works. To use v2 API, replace with:
-// import {onDocumentCreated} from "firebase-functions/v2/firestore";
-// export const sendContactNotification = onDocumentCreated(...)
+// Send email notification when new contact is created
+export const sendContactNotification = onDocumentCreated(
+  "contacts/{contactId}",
+  async (event) => {
+    const contactData = event.data?.data();
+
+    if (!contactData) {
+      console.error("No contact data found");
+      return;
+    }
+
+    const {name, email, subject, message, timestamp} = contactData;
+
+    // Email configuration
+    const emailContent = {
+      to: "info@impalaresearch.com",
+      from: name,
+      replyTo: email,
+      subject: `New Contact Form Submission: ${subject}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
+            New Contact Form Submission
+          </h2>
+          
+          <div style="margin: 20px 0;">
+            <p style="margin: 10px 0;"><strong>From:</strong> ${name}</p>
+            <p style="margin: 10px 0;"><strong>Email:</strong> 
+              <a href="mailto:${email}" style="color: #007bff;">${email}</a>
+            </p>
+            <p style="margin: 10px 0;"><strong>Subject:</strong> ${subject}</p>
+            <p style="margin: 10px 0;"><strong>Submitted:</strong> 
+              ${new Date(timestamp).toLocaleString()}
+            </p>
+          </div>
+
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <h3 style="color: #555; margin-top: 0;">Message:</h3>
+            <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
+          </div>
+
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+            <p>This is an automated message from the Impala Healthtech Research contact form.</p>
+            <p>Reply directly to this email to respond to ${name}.</p>
+          </div>
+        </div>
+      `,
+    };
+
+    // Log the email (for now)
+    // TODO: Integrate with SendGrid, Mailgun, or Resend to actually send emails
+    console.log("Contact form submission received:");
+    console.log("Email that would be sent:", emailContent);
+    console.log("To implement email sending:");
+    console.log("1. Install email service: npm install @sendgrid/mail");
+    console.log("2. Add SendGrid API key to Firebase config");
+    console.log("3. Use SendGrid to send the email");
+
+    // Example SendGrid implementation (commented out):
+    // const sgMail = require('@sendgrid/mail');
+    // sgMail.setApiKey(functions.config().sendgrid.key);
+    // await sgMail.send(emailContent);
+
+    return null;
+  }
+);
