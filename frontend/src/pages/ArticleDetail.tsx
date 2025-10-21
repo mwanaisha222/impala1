@@ -77,7 +77,7 @@ export default function ArticleDetail() {
             to="/articles"
             className="inline-block mt-6 text-orange-500 border border-orange-500 px-4 py-2 rounded hover:bg-orange-500 hover:text-white transition"
           >
-            ← Back to Articles
+            ← Back to Updates
           </Link>
         </div>
       </main>

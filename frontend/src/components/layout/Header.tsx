@@ -32,7 +32,7 @@ const Header = () => {
     { name: "Who We Are", path: "/who-we-are" },
     { name: "What We Do", path: "/what-we-do" },
     { name: "Digams", path: "https://digamsapp.com", external: true },
-    { name: "Articles", path: "/articles" },
+    { name: "Updates", path: "/articles" },
     { name: "Contact", path: "/contact" },
   ];
 

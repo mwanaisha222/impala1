@@ -56,7 +56,7 @@ export default function ArticleList() {
       <main className="container mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Latest Articles & Research
+            Latest Updates & Research
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Stay updated with our latest research, insights, and developments in healthcare technology
@@ -103,7 +103,7 @@ export default function ArticleList() {
         </div>
         {articles.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg">No articles found</div>
+            <div className="text-gray-500 text-lg">No updates found</div>
             <p className="text-gray-400 mt-2">Check back later for new content</p>
           </div>
         )}

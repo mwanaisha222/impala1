@@ -217,15 +217,15 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Articles Management Card */}
+            {/* Updates Management Card */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-accent" />
-                  Articles Management
+                  Updates Management
                 </CardTitle>
                 <CardDescription>
-                  Create and manage blog articles
+                  Create and manage updates
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -234,37 +234,37 @@ const AdminDashboard = () => {
                   className="w-full"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  Create New Article
+                  Create New Update
                 </Button>
               </CardContent>
             </Card>
           </div>
 
-          {/* Articles List Section */}
+          {/* Updates List Section */}
           <Card className="mt-8">
             <CardHeader>
-              <CardTitle>Published Articles</CardTitle>
+              <CardTitle>Published Updates</CardTitle>
               <CardDescription>
-                Manage your published articles - edit or delete as needed
+                Manage your published updates - edit or delete as needed
               </CardDescription>
             </CardHeader>
             <CardContent>
               {loadingArticles ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                  <p className="mt-2 text-muted-foreground">Loading articles...</p>
+                  <p className="mt-2 text-muted-foreground">Loading updates...</p>
                 </div>
               ) : articles.length === 0 ? (
                 <div className="text-center py-8">
                   <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No articles published yet</p>
+                  <p className="text-muted-foreground">No updates published yet</p>
                   <Button
                     onClick={() => navigate("/articles/new")}
                     className="mt-4"
                     variant="outline"
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Create Your First Article
+                    Create Your First Update
                   </Button>
                 </div>
               ) : (

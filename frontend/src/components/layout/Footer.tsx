@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -73,7 +73,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/articles" className="text-primary-foreground/80 hover:text-accent transition-colors">
-                  Articles
+                  Updates
                 </Link>
               </li>
               <li>
@@ -133,20 +133,20 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4 mb-6">
               <a
-                href="#"
+                href="https://www.instagram.com/impalahealthtechresearch?igsh=MWtpY2tkNWwwamN1bA=="
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
+                aria-label="Follow us on Instagram"
               >
-                <Facebook className="h-5 w-5" />
+                <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/impalaresearch/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="h-10 w-10 rounded-full bg-primary-foreground/10 hover:bg-accent flex items-center justify-center transition-colors"
+                aria-label="Follow us on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
               </a>

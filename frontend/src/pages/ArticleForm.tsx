@@ -206,11 +206,11 @@ const ArticleForm = () => {
         <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
           <Button variant="ghost" asChild className="mb-4">
             <Link to="/articles">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Articles
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Updates
             </Link>
           </Button>
           <h1 className="text-4xl font-bold mb-8">
-            {isEditing ? "Edit Article" : "Create New Article"}
+            {isEditing ? "Edit Update" : "Create New Update"}
           </h1>
           <div className="bg-card border rounded-xl p-8 shadow-sm">
             <form onSubmit={handleSubmit} className="space-y-6">

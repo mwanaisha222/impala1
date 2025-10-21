@@ -7,7 +7,7 @@ import mukLogo from '../assets/muk logo.jpg';
 import oxfordLogo from '../assets/oxford.jpg';
 import standardCharteredLogo from '../assets/standard-chartered-bank-uganda-seeklogo.png';
 import villageCapitalLogo from '../assets/villagecapital.jpg';
-import clinitouchLogo from '../assets/clinitouch.jpg';
+import ampLogo from '../assets/amp.jpg';
 import tech2Logo from '../assets/tech2.jpg';
 import upgLogo from '../assets/upg.png';
 import accessLogo from '../assets/access.jpg';
@@ -20,7 +20,7 @@ const Partners: React.FC = () => {
     { name: 'Oxford', logo: oxfordLogo },
     { name: 'Standard Chartered Bank', logo: standardCharteredLogo },
     { name: 'Village Capital', logo: villageCapitalLogo },
-    { name: 'Clinitouch', logo: clinitouchLogo },
+    { name: 'AMP', logo: ampLogo },
     { name: 'Tech Partner 2', logo: tech2Logo },
     { name: 'UPG', logo: upgLogo },
     { name: 'Access', logo: accessLogo },

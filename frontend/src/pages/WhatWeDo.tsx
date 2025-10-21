@@ -93,7 +93,7 @@ const WhatWeDo = () => {
 
             <div className="grid md:grid-cols-2 gap-12 items-center animate-slide-up">
               <div>
-                <h3 className="text-2xl font-bold mb-6">Advanced Healthcare Technology</h3>
+                <h3 className="text-2xl font-bold mb-6">Advanced Connected Diagnostics</h3>
                 <p className="text-lg text-muted-foreground mb-6">
                   DIGAMS is a digital antimicrobial stewardship platform integrating a microbiology lab marketplace with real-time AI-driven empirical antimicrobial treatment decision support for clinicians.
                 </p>
