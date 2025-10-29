@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import Newsletter from "./pages/Newsletter";
 import AdminDashboard from "./pages/AdminDashboard";
 import SecretAdminLogin from "./pages/SecretAdminLogin";
+import Analytics from "./pages/Analytics";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           {/* Secret Admin Routes - Hidden from public */}
           <Route path="/impala-admin-secure-login" element={<SecretAdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/analytics" element={<Analytics />} />
           
           {/* Legacy routes - kept for backward compatibility */}
           <Route path="/login" element={<SecretAdminLogin />} />

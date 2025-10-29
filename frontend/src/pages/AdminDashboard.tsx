@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Mail, Users, FileText, Plus, Edit, Trash2 } from "lucide-react";
+import { Download, Mail, Users, FileText, Plus, Edit, Trash2, BarChart3 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -189,7 +189,29 @@ const AdminDashboard = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Analytics Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5 text-accent" />
+                  Website Analytics
+                </CardTitle>
+                <CardDescription>
+                  View visitor stats and insights
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  onClick={() => navigate("/admin/analytics")}
+                  className="w-full"
+                >
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  View Analytics
+                </Button>
+              </CardContent>
+            </Card>
+
             {/* Contacts Card */}
             <Card>
               <CardHeader>
